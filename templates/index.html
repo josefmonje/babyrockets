@@ -1,0 +1,67 @@
+<!doctype html>
+<html class='no-js' lang=''>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title></title>
+    <meta name='description' content=''>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+    <link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.5.0/pure-min.css'>
+    <style type="text/css">
+    .red {
+    	color: red;
+    }
+    </style>
+</head>
+<body ng-app='app'>
+<!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+    <h1>Send SMS</h1>
+
+    <form class='pure-form pure-form-stacked' ng-controller='MsgCtrl as msg'>
+        <fieldset>
+            <div class="pure-control-group">
+                <input type='number' placeholder='Number' ng-model='msg.number'>
+                <textarea rows='5' cols='22' placeholder='Message' ng-model='msg.message'></textarea>
+            </div>
+
+            <div class='pure-controls'>
+                <button ng-click='msg.send()' class='pure-button pure-button-primary'>Send</button>
+                <span ng-class='{ red:140 - msg.message.length < 0 }'>{{! 140 - msg.message.length }}</span>
+            </div>
+
+        </fieldset>
+    </form>
+
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js'></script>
+<script type="text/javascript">
+(function() {
+'use strict;'
+
+MsgCtrl = function($http, $scope) {
+  this.send = function(){
+    data = {
+            'mobile_number': this.number.toString(),
+            'message': this.message,
+            'request_cost': 'P2.50',
+        }
+    //console.log(data)
+    $http.post('/messages', data)
+        //.success(console.log('Message was posted'))
+        //.error(console.log('Message was not posted'))
+    this.number = this.message = ''
+  }
+}
+
+angular.module('app', [])
+  .controller('MsgCtrl', [
+    '$http',
+    '$scope',
+    MsgCtrl
+  ])
+})();
+</script>
+</body>
+</html>

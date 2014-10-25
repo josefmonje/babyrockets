@@ -1,0 +1,9 @@
+{{ msg }}
+<br/>
+<form method='POST' action='{{ reverse_url('newuser') }}'>
+E-mail address: <input name='email' type='email'/>
+Password: <input name='password1' type='password' />
+repeat your Password: <input name='password2' type='password' />
+{% module xsrf_form_html() %}
+<input type='submit' />
+</form>
