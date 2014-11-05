@@ -1,0 +1,13 @@
+<form class='pure-form pure-form-stacked' ng-controller='MsgCtrl as msg' ng-init='msg.user="{{ current_user }}"' ng-show='!hidecompose'>
+    <fieldset>
+        <div class="pure-control-group">
+            <input type='number' placeholder='Number' ng-model='msg.number'>
+            <textarea rows='3' cols='75' placeholder='Message' ng-model='msg.message'></textarea>
+        </div>
+
+        <div class='pure-controls'>
+            <button class='pure-button pure-button-primary' ng-click='msg.send()'>Send</button>
+            <span ng-class='{ red:140 - msg.message.length < 0 }'>{{! 140 - msg.message.length }}</span>
+        </div>
+    </fieldset>
+</form>

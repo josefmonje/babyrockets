@@ -1,0 +1,19 @@
+<table class="pure-table">
+    <thead>
+        <tr>
+            <th class='short'>Number</th>
+            <th ng-show='!hidecontacts' class='long'>Name</th>
+            <th ng-show='hidecontacts' class='long'>Message</th>
+            <th ng-show='hidecontacts' class='short'>Date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat='item in this.data' ng-show='{{! item.mobile_number }}' ng-class='{ "pure-table-odd": {{! $index + 1 }} % 2 === 0 }' class='item'>
+            <td>{{! item.mobile_number }}</td>
+            <td ng-show='!hidecontacts'>{{! item.last_name }}, {{! item.first_name }}</td>
+            <td ng-show='hidecontacts'><a data-request-id='{{! item.request_id }}' href='#'>{{! item.message }}</a></td>
+            <td ng-show='hidecontacts'>{{! item.timestamp | asDate  | date:'medium' }}</td>
+        </tr>
+    </tbody>
+</table>

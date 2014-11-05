@@ -1,0 +1,22 @@
+<header>
+    <div>
+        <a class='logo'href='{{ reverse_url("index") }}'><span>ECTx<span class='large bold red'>+</span></span></a>
+    </div>
+{% if not current_user %}
+    <form class='pure-form pure-form-inline' method='POST' action='{{ reverse_url("login") }}'>
+    <fieldset>
+        <input type='email' name='email' placeholder='Email'>
+        <input type='password' name='password' placeholder='Password'>
+        {% module xsrf_form_html() %}
+        <button type='submit' class='pure-button pure-button-primary'>Sign in</button>
+    <hr>
+    </fieldset>
+    </form>
+{% else %}
+    <div class='username'>
+        <a href='{{ reverse_url('profile') }}' id='username'>{{ current_user }}</a>
+        <a href='{{ reverse_url('logout') }}' class='pure-button'>Logout</a>
+    </div>
+    <hr>
+{% end %}
+</header>

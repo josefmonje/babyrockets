@@ -1,0 +1,77 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin: 0 0em 100px 0em; /* bottom = footer height */
+}
+header {
+    margin: 0 1em 0 1em;
+}
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+}
+nav {
+    padding-top: .5em;
+    border-right: 1px solid black;
+}
+nav>ul>li, div>ul>li {
+    line-height: 3em;
+    font-weight: bold;
+    list-style-type: none;
+}
+nav>ul>li>a, td>a, .logo {
+    color: black;
+    text-decoration: none;
+}
+#main {
+    padding-left: 2.5em;
+}
+#compose {
+    height: 100%;
+    min-height: 11em;
+}
+.logo {
+    padding: .25em 0 0 1em;
+    font-family: Lucida;
+    font-size: 2em;
+    float: left;
+    display: inline;
+}
+.username {
+    padding: .45em 1em .05em 0;
+}
+.left {
+    text-align: left;
+}
+.right {
+    text-align: right;
+}
+.long {
+    width: 36em;
+}
+.short {
+    width: 12em;
+}
+.large {
+    font-size: 110%;
+}
+.item {
+    font-weight: lighter;
+    text-decoration: none;
+}
+.bold {
+    font-weight: bolder !important;
+}
+.red {
+    color: red;
+}
+@media screen and (max-width: 24em) {
+    body > header > form > fieldset > input {
+        width: 100%;
+    }
+}

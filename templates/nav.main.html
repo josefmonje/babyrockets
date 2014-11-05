@@ -1,0 +1,10 @@
+<nav>
+    <ul>
+        <li><a ng-click='main.getContacts("{{ current_user }}"); hidecontacts=false' href='#'>Contact list</a></li>
+    </ul>
+    <ul>
+        <li><a class='pure-button pure-button-primary' ng-click="hidecompose=!hidecompose" href='#'>Compose</a></li>
+        <li><a ng-click='main.getInbox("{{ current_user }}"); hidecontacts=true' href='#'>Inbox</a></li>
+        <li><a ng-click='main.getSent("{{ current_user }}"); hidecontacts=true' href='#'>Sent</a></li>
+    </ul>
+</nav>

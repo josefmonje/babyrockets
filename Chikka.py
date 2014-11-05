@@ -6,7 +6,6 @@ import requests
 # variables in local_settings optional, it won't be uploaded
 try:
     from local_settings import CLIENT_ID, SECRET_KEY, SHORTCODE, REQUEST_COST
-
 except ImportError:
     CLIENT_ID = None
     SECRET_KEY = None
@@ -32,8 +31,15 @@ class Chikka(object):
         for k, v in kwargs.iteritems():
             setattr(self, k, v)
 
+        for v in args:
+            setattr(self, v)
+
     def send(self, mobile_number, message, **kwargs):
         payload = self._prepare_payload()
+
+        # store user for later use
+        user = kwargs.get('user')
+        del kwargs['user']
 
         # check and validate mobile number
         if not mobile_number:
@@ -82,6 +88,8 @@ class Chikka(object):
 
         self.response = requests.post(API_URL, data=payload)
 
+        # return user value
+        payload['user'] = user
         return payload
 
 

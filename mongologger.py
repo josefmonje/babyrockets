@@ -1,15 +1,16 @@
-from datetime import datetime
 import time
-
 
 # cleans the data and logs it
 class Logger(object):
 
     def __init__(self, *args, **kwargs):
+        # check if database exists/was passed
         for k, v in kwargs.iteritems():
             setattr(self, k, v)
 
-        # check if database exists/was passed
+        for v in args:
+            setattr(self, v)
+
         if not self.DB:
             raise NullDatabaseException
 
@@ -50,18 +51,15 @@ class Logger(object):
     def get_received(self, message_id):
         return self.DB.incoming.find_one({ 'message_id': message_id })
 
-    def show_outgoing(self):
-        return list(self.DB.outgoing.find())
+    def show_outgoing(self, user):
+        return list(self.DB.outgoing.find({'user': user }))
 
-    def show_incoming(self):
-        return list(self.DB.incoming.find())
+    def show_incoming(self, user):
+        return list(self.DB.incoming.find({'user': user }))
 
     def show_others(self):
         return list(self.DB.others.find())
 
-
-class NullShortCodeException(Exception):
-    pass
 
 class NullDatabaseException(Exception):
     pass
