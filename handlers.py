@@ -127,7 +127,7 @@ class APIHandler(BaseHandler):
             data = 'Something went wrong...'
 
         self.set_header('Content-Type', 'application/json')
-        self.finish(json.dumps(data, default=json_util.default))
+        self.finish(json.dumps(data, default=bson.json_util.default))
 
     def post(self):
         data = json.loads(self.request.body)
