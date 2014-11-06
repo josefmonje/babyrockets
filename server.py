@@ -48,7 +48,7 @@ settings = { #Some standard settings
 
 app = Application(handlers, **settings)
 
-application = WSGIAdapter(app)
+wsgi_app = WSGIAdapter(handlers, **settings)
 
 
 def make_app():
