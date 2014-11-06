@@ -61,7 +61,7 @@ def main():
     #server.bind(8000)
     #server.start(0)  # forks one process per cpu
     application.listen(8000)
-    IOLoop.current().start()
+    tornado.ioloop.IOLoop.current().start()
 
 if __name__ == '__main__':
     main()
