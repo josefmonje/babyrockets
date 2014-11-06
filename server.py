@@ -1,5 +1,7 @@
 from tornado.ioloop import IOLoop
 from tornado.web import Application, url
+from tornado.wsgi import WSGIAdapter
+from tornado.httpserver import HTTPServer
 
 from handlers import UserHandler, LoginHandler, LogoutHandler, \
                      IndexHandler, MainHandler, ErrorHandler, \
@@ -46,7 +48,20 @@ settings = { #Some standard settings
 
 app = Application(handlers, **settings)
 
+application = WSGIAdapter(app)
+
+
+def make_app():
+    return app
+
+def main():
+    print("It's ALIVE")
+    application = make_app()
+    #server = HTTPServer(application)
+    #server.bind(8000)
+    #server.start(0)  # forks one process per cpu
+    application.listen(8000)
+    IOLoop.current().start()
+
 if __name__ == '__main__':
-    print("Let the Awesome begin")
-    app.listen(8000)
-    IOLoop.instance().start()
+    main()

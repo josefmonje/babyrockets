@@ -36,8 +36,8 @@ nav>ul>li>a, td>a, .logo {
     min-height: 11em;
 }
 .logo {
-    padding: .25em 0 0 1em;
-    font-family: Lucida;
+    padding: .15em 0 0 1em;
+    /*font-family: Lucida;*/
     font-size: 2em;
     float: left;
     display: inline;

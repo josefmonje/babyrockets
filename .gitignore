@@ -44,4 +44,5 @@ Temporary Items
 .apdisk
 
 *.pyc
+*.pem
 local_settings.py
