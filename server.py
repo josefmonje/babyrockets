@@ -1,4 +1,3 @@
-import tornado
 from tornado.ioloop import IOLoop
 from tornado.web import Application, url
 from tornado.wsgi import WSGIAdapter
@@ -33,8 +32,8 @@ handlers = [
     (r'/ChikkaNotificationReceiver/', ChikkaNotificationHandler, dict(database=DB)),
 ]
 
-
-settings = { #Some standard settings
+#Some standard settings
+settings = {
     'debug' : False,
     'autoreload' : True,
     'template_path' : 'templates',
@@ -49,7 +48,7 @@ settings = { #Some standard settings
 
 app = Application(handlers, **settings)
 
-wsgi_app = WSGIAdapter(handlers, **settings)
+wsgi_app = WSGIAdapter(app)
 
 
 def make_app():
