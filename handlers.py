@@ -68,9 +68,9 @@ class UserHandler(BaseHandler):
         first_name = self.get_argument('first_name')
         last_name = self.get_argument('last_name')
         designation = self.get_argument('designation')
-        hospital = self.get_argument('hospital')
+        company = self.get_argument('company', '')
         if password == password2:
-            user = self.auth.create(email, mobile_number, password, first_name, last_name, designation, hospital)
+            user = self.auth.create(email, mobile_number, password, first_name, last_name, designation, company)
             self.set_secure_cookie('user', email)
             self.redirect('/main/')
         else:
@@ -110,12 +110,12 @@ class APIHandler(BaseHandler):
         q = self.get_argument('q', 'received')
         user = self.get_argument('user', '')
 
-        if q == 'hospitals':
-            data = self.auth.show_hospitals()
+        if q == 'companies':
+            data = self.auth.show_companies()
         elif q == 'contacts':
             data = self.auth.show_user(user)
-            hospital = data['hospital']
-            data = self.auth.show_users(hospital)
+            company = data['company']
+            data = self.auth.show_users(company)
         elif q == 'received':
             data = self.logger.show_incoming(user)
         elif q == 'sent':

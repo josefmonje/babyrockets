@@ -1,9 +1,9 @@
 from pymongo import MongoClient
 
-# db
-HOST = 'localhost'
-MONGODB_PORT = 27017
-DB_NAME = 'EZTX'
+# db mongodb://<dbuser>:<dbpassword>@ds047800.mongolab.com:47800/babyrockets
+HOST = 'mongodb://chikka:chikka@ds047800.mongolab.com:47800/babyrockets'
+MONGODB_PORT = 47800
+DB_NAME = 'babyrockets'
 
 CLIENT = MongoClient(HOST, MONGODB_PORT)
 DB = CLIENT[DB_NAME]

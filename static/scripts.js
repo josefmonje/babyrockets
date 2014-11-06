@@ -3,8 +3,8 @@
 
 UserCtrl = function($http, $scope) {
     var user
-    this.getHospitals = function(){
-        $http.get('../api?q=hospitals')
+    this.getCompanies = function(){
+        $http.get('../api?q=companies')
             .then(function(response) {
                 $scope.data = response.data
             })
@@ -15,7 +15,7 @@ UserCtrl = function($http, $scope) {
                 $scope.user = response.data
             })
     }
-    this.getHospitals()
+    this.getCompanies()
     this.init = function() {
         user = document.getElementById('username')
         if (user != null) {

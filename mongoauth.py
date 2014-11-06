@@ -21,7 +21,7 @@ class Auth(object):
             return False
 
     # save new user
-    def _new(self, email, mobile_number, password, first_name, last_name, designation, hospital):
+    def _new(self, email, mobile_number, password, first_name, last_name, designation, company):
         return self.DB.users.save({
             'email': email,
             'mobile_number': mobile_number,
@@ -29,16 +29,16 @@ class Auth(object):
             'first_name': first_name,
             'last_name': last_name,
             'designation': designation,
-            'hospital': hospital
+            'company': company
         })
 
     # check first if user exists before creating
-    def create(self, email, mobile_number, password, first_name, last_name, designation, hospital):
+    def create(self, email, mobile_number, password, first_name, last_name, designation, company):
         user = self.exist(email)
         if user:
             return False
         else:
-            return self._new(email, mobile_number, password, first_name, last_name, designation, hospital)
+            return self._new(email, mobile_number, password, first_name, last_name, designation, company)
 
     # user login returns True or False
     def login(self, email, password):
@@ -51,9 +51,9 @@ class Auth(object):
     def show_user(self, email):
         return self.DB.users.find_one({ 'email': email }, {'password': 0 })
 
-    def show_users(self, hospital):
-        return list(self.DB.users.find({ 'hospital': hospital}, {'password': 0 }))
+    def show_users(self, company):
+        return list(self.DB.users.find({ 'company': company}, {'password': 0 }))
 
-    def show_hospitals(self):
-        return list(self.DB.hospitals.find())
+    def show_companies(self):
+        return list(self.DB.companies.find())
 
