@@ -36,7 +36,7 @@ class Logger(object):
         if msg_type is 'SEND' or msg_type is 'REPLY' or msg_type is 'outgoing':
             self.DB.outgoing.save(message)
             return 'Accepted'
-        else msg_type is 'incoming':
+        else:# msg_type is 'incoming':
             self.DB.incoming.save(message)
             return 'Accepted'
         #else : #if ever lang
