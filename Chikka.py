@@ -37,9 +37,9 @@ class Chikka(object):
     def send(self, mobile_number, message, **kwargs):
         payload = self._prepare_payload()
 
-        # store user for later use
-        user = kwargs.get('user')
-        del kwargs['user']
+        # if passed, store user for later use
+        if kwargs.has_key('user'):
+            user = kwargs.get('user')
 
         # check and validate mobile number
         if not mobile_number:
@@ -81,15 +81,16 @@ class Chikka(object):
 
         # message_id can be passed to track messages sent
         # if message_id does not exist, generate a random message id
-        payload['message_id'] = kwargs.get('message_id', 
-                                    os.urandom(16).encode('hex'))
+        payload['message_id'] = kwargs.get('message_id', os.urandom(16).encode('hex'))
 
         payload['message'] = message
 
         self.response = requests.post(API_URL, data=payload)
 
         # return user value
-        payload['user'] = user
+        if kwargs.has_key('user'):
+            payload['user'] = user
+
         return payload
 
 
