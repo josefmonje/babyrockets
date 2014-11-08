@@ -26,9 +26,12 @@ class Logger(object):
                 message[k] = v
             del message['message_id']
 
-        del message['client_id']
-        del message['secret_key']
-        del message['shortcode']
+        if 'client_id' in message.iterkeys():
+            del message['client_id']
+        if 'secret_key' in message.iterkeys():
+            del message['secret_key']
+        if 'shortcode' in message.iterkeys():
+            del message['shortcode']
 
         msg_type = message['message_type']
         del message['message_type']
