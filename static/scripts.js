@@ -15,13 +15,13 @@ UserCtrl = function($http, $scope) {
                 $scope.user = response.data
             })
     }
-    this.getCompanies()
     this.init = function() {
         user = document.getElementById('username')
         if (user != null) {
             this.user = this.getUser(user.text)
         }
     }
+    this.getCompanies()
 }
 
 MainCtrl = function($http, $scope) {
