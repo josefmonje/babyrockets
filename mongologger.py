@@ -26,7 +26,7 @@ class Logger(object):
             for k, v in msg:
                 message[k] = v
 
-        for k in ['client_id','secret_key','shortcode','message_type']:
+        for k in ['client_id','secret_key','shortcode',]:
             if message.has_key(k):
                 del message[k]
 
