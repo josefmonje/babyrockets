@@ -38,11 +38,11 @@ class Logger(object):
 
         message['timestamp'] = int(time.time())
         # save messages in proper database
-        if msg_type == 'SEND' or msg_type == 'REPLY' or msg_type == 'outgoing':
-            self.DB.outgoing.save(message)
-            return 'Accepted'
-        elif msg_type is 'incoming':
+        if msg_type is 'incoming':
             self.DB.incoming.save(message)
+            return 'Accepted'
+        elif msg_type == 'SEND' or msg_type == 'REPLY' or msg_type == 'outgoing':
+            self.DB.outgoing.save(message)
             return 'Accepted'
         else: #if ever lang
             self.DB.others.save(message)
