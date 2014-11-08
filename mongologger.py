@@ -16,25 +16,22 @@ class Logger(object):
 
     # clean up messages
     def log(self, message):
-        if message['message_type'] is 'outgoing':
+        msg_type = message['message_type']
+
+        if msg_type is 'outgoing':
             msg = self.get_sent(message['message_id'])
-            if message['status'] is 'FAILED':
+            if msg.has_key('status'):
                 # send back if delivery notification says failed
-                return msg
+                if msg['status'] is 'FAILED':
+                    return msg
             # delivery notification updates the sent message
             for k, v in msg:
                 message[k] = v
             del message['message_id']
 
-        if 'client_id' in message.iterkeys():
-            del message['client_id']
-        if 'secret_key' in message.iterkeys():
-            del message['secret_key']
-        if 'shortcode' in message.iterkeys():
-            del message['shortcode']
-
-        msg_type = message['message_type']
-        del message['message_type']
+        for k in message.iterkeys():
+            if k in ['client_id','secret_key','shortcode','message_type',]:
+                del message[k]
 
         message['timestamp'] = int(time.time())
         # save messages in proper database
