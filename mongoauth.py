@@ -3,12 +3,10 @@ class Auth(object):
 
     def __init__(self, *args, **kwargs):
         # check if database exists/was passed
-        for k, v in kwargs.iteritems():
-            setattr(self, k, v)
-
         for v in args:
             setattr(self, v)
-
+        for k, v in kwargs.iteritems():
+            setattr(self, k, v)
         if not self.DB:
             raise NullDatabaseException
 

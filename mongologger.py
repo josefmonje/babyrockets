@@ -5,12 +5,10 @@ class Logger(object):
 
     def __init__(self, *args, **kwargs):
         # check if database exists/was passed
-        for k, v in kwargs.iteritems():
-            setattr(self, k, v)
-
         for v in args:
             setattr(self, v)
-
+        for k, v in kwargs.iteritems():
+            setattr(self, k, v)
         if not self.DB:
             raise NullDatabaseException
 
@@ -27,13 +25,13 @@ class Logger(object):
             # delivery notification updates the sent message
             for k, v in msg:
                 message[k] = v
-            del message['message_id']
 
         for k in ['client_id','secret_key','shortcode','message_type']:
             if message.has_key(k):
                 del message[k]
 
         message['timestamp'] = int(time.time())
+
         # save messages in proper database
         if msg_type is 'incoming':
             self.DB.incoming.save(message)

@@ -38,8 +38,8 @@ class Chikka(object):
         payload = self._prepare_payload()
 
         # if passed, store user for later use
-        if kwargs.has_key('user'):
-            user = kwargs.get('user')
+        if kwargs.get('user'):
+            user = kwargs.pop('user')
 
         # check and validate mobile number
         if not mobile_number:
@@ -47,34 +47,24 @@ class Chikka(object):
         else:
             mobile_number = str(mobile_number)
  
-        # e.g. 9991234567
+        # e.g. 9991234567, 09991234567 -> # 639991234567
         if len(mobile_number) is 10:
             mobile_number = '%s%s' % ('63', mobile_number)
- 
-        # e.g. 09991234567
-        if len(mobile_number) is 11 and mobile_number.startswith('0'):
-            mobile_number = '%s%s' % ('63', mobile_number[1:])
- 
-        # e.g. 639991234567
+        if len(mobile_number) is 11 and mobile_number.startswith('0'): 
+            mobile_number = '%s%s' % ('63', mobile_number[1:]) 
         if not re.match('^63[0-9]{10}', mobile_number):
             raise InvalidMobileNumberException
 
         payload['mobile_number'] = mobile_number
 
-        # if request_id was passed it means message was received
-        # determines message_type, adds other required payload
-        if kwargs.get('request_id'):
-            payload['request_id'] = kwargs.get('request_id')
-
-        # also check if request_cost was passed to this method
-        # if not, use default request_cost
-        if kwargs.get('request_cost'):
-            payload['request_cost'] = kwargs.get('request_cost', REQUEST_COST)
-
+        payload['request_cost'] = kwargs.get('request_cost', REQUEST_COST)
         # override request_cost if SUN, which can only be P2.00
         if mobile_number[0:5] in SUN_PREFIXES:
             payload['request_cost'] = 'P2.00'
 
+        # if request_id was passed it means this is a reply
+        if kwargs.get('request_id'):
+            payload['request_id'] = kwargs.get('request_id')
             payload['message_type'] = 'REPLY'
         else:
             payload['message_type'] = 'SEND'
@@ -82,17 +72,15 @@ class Chikka(object):
         # message_id can be passed to track messages sent
         # if message_id does not exist, generate a random message id
         payload['message_id'] = kwargs.get('message_id', os.urandom(16).encode('hex'))
-
         payload['message'] = message
 
         self.response = requests.post(API_URL, data=payload)
 
         # return user value
-        if kwargs.has_key('user'):
+        if user:
             payload['user'] = user
 
         return payload
-
 
     def _prepare_payload(self):
         # check if other required fields exists
