@@ -57,3 +57,6 @@ class Auth(object):
     def show_companies(self):
         return list(self.DB.companies.find())
 
+
+class NullDatabaseException(Exception):
+    pass

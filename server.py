@@ -51,16 +51,10 @@ app = Application(handlers, **settings)
 wsgi_app = WSGIAdapter(app)
 
 
-def make_app():
-    return app
-
 def main():
     print("It's ALIVE")
-    application = make_app()
-    #server = HTTPServer(application)
-    #server.bind(8000)
-    #server.start(0)  # forks one process per cpu
-    application.listen(8000)
+    server = HTTPServer(app)
+    server.listen(8008)
     IOLoop.current().start()
 
 if __name__ == '__main__':

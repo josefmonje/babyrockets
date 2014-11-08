@@ -1,7 +1,7 @@
 from tornado.web import RequestHandler, authenticated
 
 import json
-import bson
+#import bson
 from bson import json_util
 
 from mongoauth import Auth
@@ -88,21 +88,33 @@ class MainHandler(BaseHandler):
 
 class ChikkaMessageHandler(BaseHandler):
     def post(self):
-        data = json.loads(self.request.body)
-        log = logger.log(data)
-        # insert app logic here
+        data = {}
+        data['message_type'] = self.get_argument('message_type')
+        data['mobile_number'] = self.get_argument('mobile_number')
+        data['request_id'] = self.get_argument('request_id')
+        data['message'] = self.get_argument('message')
+        data['timestamp'] = self.get_argument('timestamp')
+        log = self.logger.log(data)
         return log
 
 
+
 class ChikkaNotificationHandler(BaseHandler):
-    def post(self, message):
+    def prepare(self):
+        return None
+
+    def post(self):
+        message_id = self.get_argument('message_id')
+        status = self.get_argument('status')
         # if the message is received back, send again.
-        if log != 'Accepted' or log != 'Error':
-            message = logger.get_sent(message['message_id'])
-            chikka.send(message['mobile_number'], message['message'])
+        if status == 'FAILED':
+            message = self.logger.get_sent(message_id)
+            self.chikka.send(message['mobile_number'], message['message'])
+            return 'Accepted'
+        if status == 'SENT':
             return 'Accepted'
         else:
-            return log
+            return 'Error'
 
 
 class APIHandler(BaseHandler):
@@ -128,7 +140,7 @@ class APIHandler(BaseHandler):
             data = 'Something went wrong...'
 
         self.set_header('Content-Type', 'application/json')
-        self.finish(json.dumps(data, default=bson.json_util.default))
+        self.finish(json.dumps(data, default=json_util.default))
 
     def post(self):
         data = json.loads(self.request.body)
