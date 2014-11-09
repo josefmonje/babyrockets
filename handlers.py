@@ -105,7 +105,7 @@ class ChikkaNotificationHandler(BaseHandler):
 
     def post(self):
         message_id = self.get_argument('message_id')
-        status = self.get_argument('status')
+        status = self.get_argument('status', '')
         # if the message is received back, send again.
         if status == 'FAILED':
             message = self.logger.get_sent(message_id)
