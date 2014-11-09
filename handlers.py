@@ -89,23 +89,26 @@ class MainHandler(BaseHandler):
 class ChikkaMessageHandler(BaseHandler):
     def post(self):
         data = {}
-        data['message_type'] = self.get_argument('message_type')
-        data['mobile_number'] = self.get_argument('mobile_number')
-        data['request_id'] = self.get_argument('request_id')
-        data['message'] = self.get_argument('message')
-        data['timestamp'] = self.get_argument('timestamp')
-        log = self.logger.log(data)
-        return log
-
+        sender = self.get_argument('mobile_number')
+        message = self.get_argument('message')
+        recipient = message.split(' ',1)[0]
+        if self.auth.exist(user):
+            data['user'] = recipient
+            data['message'] = message.split(' ',1)[1:][0]
+            data['message_type'] = self.get_argument('message_type')
+            data['mobile_number'] = sender
+            data['request_id'] = self.get_argument('request_id')
+            data['timestamp'] = self.get_argument('timestamp')
+            log = self.logger.log(data)
+            return log
+        else:
+            self.chikka.send(sender, "Message wasn't sent. No such user: %" % recipient)
 
 
 class ChikkaNotificationHandler(BaseHandler):
-    def prepare(self):
-        return None
-
     def post(self):
         message_id = self.get_argument('message_id')
-        status = self.get_argument('status', '')
+        status = self.get_argument('status')
         # if the message is received back, send again.
         if status == 'FAILED':
             message = self.logger.get_sent(message_id)
